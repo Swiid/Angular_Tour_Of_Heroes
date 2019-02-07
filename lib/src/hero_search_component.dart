@@ -18,13 +18,9 @@ class HeroSearchComponent implements OnInit {
   HeroSearchService _heroSearchService;
   Router _router;
   Stream<List<Hero>> heroes;
-
   StreamController<String> _searchTerms = StreamController<String>.broadcast();
-
   HeroSearchComponent(this._heroSearchService, this._router) {}
-
   void search(String term) => _searchTerms.add(term);
-
   void ngOnInit() async {
     heroes = _searchTerms.stream
         .transform(debounce(Duration(milliseconds: 300)))

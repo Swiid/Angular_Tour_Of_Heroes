@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'package:angular/angular.dart';
 import 'package:angular_router/angular_router.dart';
-import 'package:angular_tour_of_heroes/src/route_paths.dart';
+import 'route_paths.dart';
 import 'hero.dart';
+import 'hero_component.dart';
 import 'hero_service.dart';
 
 @Component(
   selector: 'my-heroes',
   templateUrl: 'hero_list_component.html',
   styleUrls: ['hero_list_component.css'],
-  directives: [coreDirectives],
-  providers: [ClassProvider(HeroService)],
+  directives: [coreDirectives, HeroComponent],
   pipes: [commonPipes],
 )
 class HeroListComponent implements OnInit {
@@ -18,22 +18,10 @@ class HeroListComponent implements OnInit {
   final Router _router;
   List<Hero> heroes;
   Hero selected;
-
   HeroListComponent(this._heroService, this._router);
-
   Future<void> _getHeroes() async {
     heroes = await _heroService.getAll();
   }
-
-  void ngOnInit() => _getHeroes();
-
-  void onSelect(Hero hero) => selected = hero;
-
-  String _heroUrl(int id) =>
-      RoutePaths.hero.toUrl(parameters: {idParam: '$id'});
-
-  Future<NavigationResult> gotoDetail() =>
-      _router.navigate(_heroUrl(selected.id));
 
   Future<void> add(String name) async {
     name = name.trim();
@@ -47,4 +35,11 @@ class HeroListComponent implements OnInit {
     heroes.remove(hero);
     if (selected == hero) selected = null;
   }
+
+  void ngOnInit() => _getHeroes();
+  void onSelect(Hero hero) => selected = hero;
+  String _heroUrl(int id) =>
+      RoutePaths.hero.toUrl(parameters: {idParam: '$id'});
+  Future<NavigationResult> gotoDetail() =>
+      _router.navigate(_heroUrl(selected.id));
 }

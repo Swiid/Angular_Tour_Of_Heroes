@@ -1,3 +1,5 @@
+// Note: MockClient constructor API forces all InMemoryDataService members to
+// be static.
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
