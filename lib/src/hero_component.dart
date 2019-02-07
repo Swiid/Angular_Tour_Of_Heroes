@@ -25,4 +25,9 @@ class HeroComponent implements OnActivate {
 
   HeroComponent(this._heroService, this._location);
   void goBack() => _location.back();
+
+  Future<void> save() async {
+    await _heroService.update(hero);
+    goBack();
+  }
 }
